@@ -11,9 +11,9 @@ int main(int argc, char *argv[]){
 
     std::string source, dest;
     std::cout << "Introduzca ID origen: ";
-    std::cin >> source;
+    // std::cin >> source;
     std::cout << "Introduzca ID destino: ";
-    std::cin >> dest;
+    // std::cin >> dest;
 
     return 0;
 }
