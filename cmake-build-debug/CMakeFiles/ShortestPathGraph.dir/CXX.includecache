@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/andres/workspace/ShortestPathGraph/src/Graph.cpp
+Graph.h
+/home/andres/workspace/ShortestPathGraph/src/Graph.h
+

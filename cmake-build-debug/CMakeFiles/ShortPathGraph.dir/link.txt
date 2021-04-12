@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/ShortPathGraph.dir/main.cpp.o -o ShortPathGraph  -Wl,-rpath,/home/andres/workspace/ShortestPathGraph/cmake-build-debug libgraph.so 
