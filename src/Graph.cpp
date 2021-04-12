@@ -56,13 +56,9 @@ bool Graph::findID(const std::string &src, const std::string &dest) {
     auto search2 = m_graph.find(dest);
     if (search1 != m_graph.end() || search2 != m_graph.end()) {
         std::cout << "Found " << search1->first  << std::endl;
-        auto itr = search1->second.begin();
-        auto list = search1->second;
-        while (itr != list.end()) {
-            bool found = search1->first ==(*itr).first;
-            ++itr;
-        }
-
+        std::cout << "Found " << search2->first  << std::endl;
+        std::cout << "Origen: " << search1->first << std::endl;
+        std::cout << "Dest: " << search2->first << std::endl;
     } else {
         std::cout << "Not found\n";
     }
