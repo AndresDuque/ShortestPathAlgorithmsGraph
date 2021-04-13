@@ -11,8 +11,7 @@ target_sources(graph PRIVATE
         )
 target_include_directories(graph PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include/>
-        )
+        $<INSTALL_INTERFACE:include/>)
 
 
 add_executable(${PROJECT_NAME} main.cpp)
