@@ -11,6 +11,11 @@
 #include <set>
 
 
+// I have used this value as Infinite since I assume a graph
+// larger than this won't be tested on this code. Rather other
+// standard libraries should be used.
+#define INF 2 << 22
+
 // Data structure to store a graph edge
 struct Edge {
     std::string src, dest;
@@ -20,7 +25,7 @@ struct Edge {
 class Graph {
 private:
     std::vector<Edge> m_edges;
-    std::set<std::string> m_vertices;
+    unsigned int m_number_vertices{};
     std::unordered_map<std::string, std::list<std::pair<std::string, int>>> m_graph;
 public:
     Graph() = default;
@@ -32,5 +37,5 @@ public:
     bool findIdSource(const std::string &src);
     bool findIdDestine(const std::string &dest);
     bool findId(const std::string &src, const std::string &dest);
-    bool BFS(const std::string &src, const std::string &dest);
+    std::vector<std::string> dijkstra(const std::string &src, const std::string &dest);
 };

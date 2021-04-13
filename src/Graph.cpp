@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <list>
+#include <queue>
 
 void Graph::buildGraph(const std::vector<Edge> &edges) {
     // add edges to the directed graph
@@ -14,21 +15,24 @@ void Graph::buildGraph(const std::vector<Edge> &edges) {
         // insert at the end
         m_graph[edge.src].push_back(std::make_pair(edge.dest, edge.weight));
         // bidirectional relationship
-        //m_graph[edge.dest].push_back(std::make_pair(edge.src, edge.weight));
+        m_graph[edge.dest].push_back(std::make_pair(edge.src, edge.weight));
     }
 }
 
 void Graph::readFile(const std::string &file) {
     std::string src, dest;
     std::ifstream infile(file);
+    std::set<std::string> vertices;
+
     while (infile >> src >> dest) {
         Edge edge;
         edge.src = src;
         edge.dest = dest;
         m_edges.push_back(edge);
-        m_vertices.insert(edge.src);
-        m_vertices.insert(edge.dest);
+        vertices.insert(edge.src);
+        vertices.insert(edge.dest);
     }
+    m_number_vertices = vertices.size();
 }
 
 void Graph::printGraph() {
@@ -81,9 +85,64 @@ bool Graph::findId(const std::string &src, const std::string &dest) {
     }
 }
 
-bool Graph::BFS(const std::string &src, const std::string &dest) {
-    int result = 0;
+std::vector<std::string> Graph::dijkstra(const std::string &src, const std::string &dest) {
+    // Second arguments -> distances
+    // Find the smallest distance in the already in closed list
+    // and push it in -> previous
+    std::unordered_map<std::string, int> distances;
+    std::unordered_map<std::string, std::string> previous;
 
+    std::vector<std::string> nodes; // Open list
+    std::vector<std::string> path; // Closed list
 
-    return result;
+    auto comparator = [&](std::string left, std::string right) {
+        return distances[left] > distances[right];
+    };
+
+    for (auto &vertex : m_graph) {
+        if (vertex.first == src) {
+            distances[vertex.first] = 0;
+        } else {
+            distances[vertex.first] = std::numeric_limits<int>::max();
+        }
+        nodes.push_back(vertex.first);
+        std::push_heap(std::begin(nodes), std::end(nodes), comparator);
+    }
+
+    while (!nodes.empty()) {
+        std::pop_heap(std::begin(nodes), std::end(nodes), comparator);
+        std::string smallest = nodes.back();
+        nodes.pop_back();
+
+        std::cout << "Open list: ";
+        for (const auto &node : nodes) {
+            std::cout << node << ' ';
+        }
+        std::cout << std::endl;
+
+        if (smallest == dest) {
+            while (previous.find(smallest) != end(previous)) {
+                path.push_back(smallest);
+                smallest = previous[smallest];
+                std::cout << "Closed list: ";
+                for (const auto &i : path) {
+                    std::cout << i << ' ';
+                }
+                std::cout << std::endl;
+            }
+            break;
+        }
+        if (distances[smallest] == std::numeric_limits<int>::max()) {
+            break;
+        }
+        for (auto &neighbor : m_graph[smallest]) {
+            int alt = distances[smallest] + neighbor.second;
+            if (alt < distances[neighbor.first]) {
+                distances[neighbor.first] = alt;
+                previous[neighbor.first] = smallest;
+                make_heap(begin(nodes), end(nodes), comparator);
+            }
+        }
+    }
+    return path;
 }
