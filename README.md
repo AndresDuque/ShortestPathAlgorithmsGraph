@@ -1,3 +1,3 @@
 # The shortest path algorithms.
 
-https://github.com/AndresDuque/ShortestPathGraphAlgorithmsGraph/actions/workflows/graph.yml/badge.svg
+![example workflow] https://github.com/AndresDuque/ShortestPathAlgorithmsGraph/tree/master/actions/workflows/graph.yml/badge.svg
