@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
 
     graph.readFile(argv[1]);
     graph.buildGraph(graph.getEdges());
-    graph.printGraph();
+    //graph.printGraph();
 
     std::string source, dest;
     std::cout << "Introduzca ID origen: ";
@@ -19,10 +19,16 @@ int main(int argc, char *argv[]) {
 
     if (graph.findId(source, dest)) {
         for (auto &s : graph.dijkstra(source, dest)) {
-            std::cout << "Solution path from goal sequence : " << seq
-                      << " Node : " << s << std::endl;
             seq++;
         }
+    } else{
+        std::cout << "Origen o destino no existe en el grafo." << std::endl;
+    }
+
+    if(seq==0){
+        std::cout << "No existe camino." << std::endl;
+    }else{
+        std::cout << "Longitud camino: " << seq << std::endl;
     }
 
     return 0;

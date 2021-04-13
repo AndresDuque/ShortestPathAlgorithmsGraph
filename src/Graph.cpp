@@ -85,7 +85,8 @@ bool Graph::findId(const std::string &src, const std::string &dest) {
     }
 }
 
-std::vector<std::string> Graph::dijkstra(const std::string &src, const std::string &dest) {
+std::vector<std::string>
+Graph::dijkstra(const std::string &src, const std::string &dest) {
     // Second arguments -> distances
     // Find the smallest distance in the already in closed list
     // and push it in -> previous
@@ -114,21 +115,21 @@ std::vector<std::string> Graph::dijkstra(const std::string &src, const std::stri
         std::string smallest = nodes.back();
         nodes.pop_back();
 
-        std::cout << "Open list: ";
-        for (const auto &node : nodes) {
-            std::cout << node << ' ';
-        }
-        std::cout << std::endl;
+        //std::cout << "Open list: ";
+        //for (const auto &node : nodes) {
+        //    std::cout << node << ' ';
+        // }
+        //std::cout << std::endl;
 
         if (smallest == dest) {
             while (previous.find(smallest) != end(previous)) {
                 path.push_back(smallest);
                 smallest = previous[smallest];
-                std::cout << "Closed list: ";
-                for (const auto &i : path) {
-                    std::cout << i << ' ';
-                }
-                std::cout << std::endl;
+                //std::cout << "Closed list: ";
+                //for (const auto &i : path) {
+                //    std::cout << i << ' ';
+                // }
+                // std::cout << std::endl;
             }
             break;
         }
