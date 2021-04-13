@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     std::cout << "Introduzca ID destino: ";
     //std::cin >> dest;
 
-    graph.findID(source,dest);
+    graph.findId(source,dest);
 
     return 0;
 }

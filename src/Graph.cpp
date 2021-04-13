@@ -3,9 +3,10 @@
 //
 
 #include "Graph.h"
+
 #include <fstream>
 #include <iostream>
-
+#include <list>
 
 void Graph::buildGraph(const std::vector<Edge> &edges) {
     // add edges to the directed graph
@@ -13,7 +14,7 @@ void Graph::buildGraph(const std::vector<Edge> &edges) {
         // insert at the end
         m_graph[edge.src].push_back(std::make_pair(edge.dest, edge.weight));
         // bidirectional relationship
-        m_graph[edge.dest].push_back(std::make_pair(edge.src, edge.weight));
+        //m_graph[edge.dest].push_back(std::make_pair(edge.src, edge.weight));
     }
 }
 
@@ -25,6 +26,8 @@ void Graph::readFile(const std::string &file) {
         edge.src = src;
         edge.dest = dest;
         m_edges.push_back(edge);
+        m_vertices.insert(edge.src);
+        m_vertices.insert(edge.dest);
     }
 }
 
@@ -46,22 +49,41 @@ std::vector<Edge> Graph::getEdges() const {
     return m_edges;
 }
 
-int Graph::getShortestPath(const std::string &src, const std::string &dest) {
-
-    return 0;
+bool Graph::findIdSource(const std::string &src) {
+    bool res = false;
+    auto search = m_graph.find(src);
+    if (search != m_graph.end()) {
+        //std::cout << "Found " << search->first << std::endl;
+        //std::cout << "Origen: " << search->first << std::endl;
+        res = true;
+    }
+    return res;
 }
 
-bool Graph::findID(const std::string &src, const std::string &dest) {
-    auto search1 = m_graph.find(src);
-    auto search2 = m_graph.find(dest);
-    if (search1 != m_graph.end() || search2 != m_graph.end()) {
-        std::cout << "Found " << search1->first  << std::endl;
-        std::cout << "Found " << search2->first  << std::endl;
-        std::cout << "Origen: " << search1->first << std::endl;
-        std::cout << "Dest: " << search2->first << std::endl;
-    } else {
-        std::cout << "Not found\n";
+bool Graph::findIdDestine(const std::string &dest) {
+    bool res = false;
+    auto search = m_graph.find(dest);
+    if (search != m_graph.end()) {
+        //std::cout << "Found " << search->first << std::endl;
+        //std::cout << "Origen: " << search->first << std::endl;
+        res = true;
     }
+    return res;
+}
 
-    return false;
+// Para poder ejecutar la busqueda se tienen que encontrar los dos nodos
+// del grafo
+bool Graph::findId(const std::string &src, const std::string &dest) {
+    if (findIdSource(src) && findIdDestine(dest)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool Graph::BFS(const std::string &src, const std::string &dest) {
+    int result = 0;
+
+
+    return result;
 }
