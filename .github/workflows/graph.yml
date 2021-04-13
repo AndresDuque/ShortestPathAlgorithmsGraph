@@ -40,5 +40,12 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config $BUILD_TYPE
 
-      - name: Profile Readme
-        uses: actions-js/profile-readme@v1
+      - name: Create README.md
+        uses: actions-js/profile-readme@master
+        with:
+          username: AndresDuque
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
