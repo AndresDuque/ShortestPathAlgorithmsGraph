@@ -9,8 +9,13 @@
 #include <list>
 #include <queue>
 
+/**
+ * @name: buildGraph
+ * @description Construye el grafo con los datos leidos del archivo de texto
+ * @param edges
+ */
 void Graph::buildGraph(const std::vector<Edge> &edges) {
-    // add edges to the directed graph
+    // inserta el origen apuntando al destino y viceversa
     for (auto &edge: edges) {
         // insert at the end
         m_graph[edge.src].push_back(std::make_pair(edge.dest, edge.weight));
@@ -19,6 +24,12 @@ void Graph::buildGraph(const std::vector<Edge> &edges) {
     }
 }
 
+/**
+ * @name: readFile
+ * @description Lee el archivo de texto, crea las relaciones entre los nodos y
+ * los añade al vector.
+ * @param file
+ */
 void Graph::readFile(const std::string &file) {
     std::string src, dest;
     std::ifstream infile(file);
@@ -35,6 +46,10 @@ void Graph::readFile(const std::string &file) {
     m_number_vertices = vertices.size();
 }
 
+/**
+ * @name: printGraph
+ * @description Imprime el grafo
+ */
 void Graph::printGraph() {
     for (auto &i : m_graph) {
         std::string src = i.first;
@@ -49,10 +64,19 @@ void Graph::printGraph() {
     }
 }
 
+/**
+ * @name: getEdges
+ * @description devuelve el vector de aristas
+ */
 std::vector<Edge> Graph::getEdges() const {
     return m_edges;
 }
 
+/**
+ * @name: findIdSource
+ * @description Devuelve true si encuentra el nodo origen
+ * @params src
+ */
 bool Graph::findIdSource(const std::string &src) {
     bool res = false;
     auto search = m_graph.find(src);
@@ -64,6 +88,11 @@ bool Graph::findIdSource(const std::string &src) {
     return res;
 }
 
+/**
+ * @name: findIdDestine
+ * @description Devuelve true si encuentra el nodo destino
+ * @params dest
+ */
 bool Graph::findIdDestine(const std::string &dest) {
     bool res = false;
     auto search = m_graph.find(dest);
@@ -75,8 +104,12 @@ bool Graph::findIdDestine(const std::string &dest) {
     return res;
 }
 
-// Para poder ejecutar la busqueda se tienen que encontrar los dos nodos
-// del grafo
+/**
+ * @name: findIdSource
+ * @description Devuelve true si encuentra los nodos introducidos por el
+ * usuario, en caso contrario devuelve falso.
+ * @params src
+ */
 bool Graph::findId(const std::string &src, const std::string &dest) {
     if (findIdSource(src) && findIdDestine(dest)) {
         return true;
@@ -85,6 +118,33 @@ bool Graph::findId(const std::string &src, const std::string &dest) {
     }
 }
 
+/**
+ * @name dijkstra
+ * @param src
+ * @param dest
+ * @description
+ * Esta función implementa el algoritmo dijstra o tambien llamado
+ * algoritmo de caminos minimos.
+ * 1. Inicializa todas las distancias a un valor infinito relativo,
+ * ya que son desconocidas al principio excepto el nodo actual puesto que
+ * es el mismo nodo. (Llegar de nodo A a nodo A es 0).
+ * 2. Se toma el nodo actual.
+ * 3. Se recorren todos los nodos adyacentes del nodo actual, excepto los nodos
+ * no marcados.
+ * 4. Para el nodo actual se calcula la distancia tentantiva desde dicho
+ * nodo hasta sus vecinos. La distancia tentativa del nodo A es la distancia que
+ * actualmente tiene el nodo en el vector D más la distancia desde dicho nodo ‘a’
+ * (el actual) hasta el nodo vi. Si la distancia tentativa es menor que la distancia
+ * almacenada en el vector, entonces se actualiza el vector con esta distancia
+ * tentativa.
+ * 5. Se marca como completo el nodo a.
+ * 6.Se toma como próximo nodo actual el de menor valor en D
+ * (puede hacerse almacenando los valores en una cola de prioridad)
+ * y se regresa al paso 3, mientras existan nodos no marcados.
+ *
+ * Una ves terminado el algoritmo, el hash map de distancias estara lleno.
+ * @return Devuelve el camino de nodos desde src a dest.
+ */
 std::vector<std::string>
 Graph::dijkstra(const std::string &src, const std::string &dest) {
     // Second arguments -> distances
@@ -96,7 +156,7 @@ Graph::dijkstra(const std::string &src, const std::string &dest) {
     std::vector<std::string> nodes; // Open list
     std::vector<std::string> path; // Closed list
 
-    auto comparator = [&](std::string left, std::string right) {
+    auto comparator = [&](const std::string& left, const std::string& right) {
         return distances[left] > distances[right];
     };
 
